@@ -1,0 +1,69 @@
+{
+  "project_info": {
+    "project_number": "837038293145",
+    "project_id": "com-tiinver",
+    "storage_bucket": "com-tiinver.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837038293145:android:782a5e144b9a60ef417808",
+        "android_client_info": {
+          "package_name": "com.tiinver"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837038293145-vjku9orvoqd0sprkldmlfos6asolafgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0vjSyPeJQVwbcd8MRHY8e3uWgua9dv6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837038293145-vjku9orvoqd0sprkldmlfos6asolafgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      },
+      "admob_app_id": "ca-app-pub-2461482190230201~9045103625"
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837038293145:android:5cb4f4c1642bc859417808",
+        "android_client_info": {
+          "package_name": "com.tiinver.tiinver_project"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837038293145-vjku9orvoqd0sprkldmlfos6asolafgq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC0vjSyPeJQVwbcd8MRHY8e3uWgua9dv6o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837038293145-vjku9orvoqd0sprkldmlfos6asolafgq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
