@@ -84,6 +84,25 @@ class MessageProvider extends ChangeNotifier{
       // int msgId = random.nextInt(1000000000);
       var date = DateTime.timestamp();
 
+      final packet = {
+        "messageId": msgId.toString(),
+        "conversationId": chatRoomId,
+        "type": "chat",
+        "to": to,
+        "sender": from,
+        "receiver": receiverId,
+        "from": from,
+        "nikname": to,
+        "message": msg,
+        "verb": "post",
+        "object": "text",
+        "profile": "https://tiinver.com/api/uploads/profiles/default.png",
+        "status": "0",
+        "stamp": date.toString(),
+        "resource": "Infinix X669",
+        "isQuoted": "false"
+      };
+
       final body = {
         'from': from,
         'to': to,
@@ -91,24 +110,7 @@ class MessageProvider extends ChangeNotifier{
         'messageSize': msgSize,
         'creationDate': date.toString(),
         'deliver_time': date.toString(),
-        'packet': {
-          "messageId": msgId.toString(),
-          "conversationId": chatRoomId,
-          "type": "chat",
-          "to": to,
-          "sender": from,
-          "receiver": receiverId,
-          "from": from,
-          "nikname": to,
-          "message":msg,
-          "verb":"post",
-          "object":"text",
-          "profile":"https://tiinver.com/api/uploads/profiles/default.png",
-          "status":"0",
-          "stamp": date.toString(),
-          "resource":"Infinix X669",
-          "isQuoted":"false"
-        },
+        'packet': jsonEncode(packet),
       };
 
       final res = await ApiService.post(

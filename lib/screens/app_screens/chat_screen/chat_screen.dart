@@ -546,16 +546,21 @@ class _ChatScreenState extends State<ChatScreen> {
 
 
   void _connectSocket() {
-    _socket = IO.io('https://api.tiinver.com:2020', IO.OptionBuilder()
+    final signProvider = Provider.of<SignInProvider>(context, listen: false);
+    _socket = IO.io('https://tiinver.com', IO.OptionBuilder()
         .setTransports(['websocket'])
+        .setQuery({
+          'userId': signProvider.userId?.toString() ?? '',
+          'username': widget.otherUserUserName,
+        })
         .build()
-    );  
+    );
 
     _socket.onConnect((_) {
       log('Connected to Socket.IO server');
     });
 
-    _socket.on('message', (data) {
+    _socket.on('new message', (data) {
       var message = jsonDecode(data);
       log('Received message: $message');
     });
@@ -1297,7 +1302,6 @@ class MessageBubble extends StatelessWidget {
 //     }
 //   }
 // }
-
 
 
 

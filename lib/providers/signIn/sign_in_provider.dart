@@ -62,7 +62,7 @@ class SignInProvider with ChangeNotifier {
       final body = {
         'username': email,
         'password': password,
-        'auth_by_email': 'email',
+        'provider': 'email',
       };
 
       final res = await ApiService.post(
@@ -113,6 +113,7 @@ class SignInProvider with ChangeNotifier {
 
           var sp = await SharedPreferences.getInstance();
           sp.setString(DbKeys.userApiKey, _user.apiKey!);
+          sp.setString(DbKeys.tiinverToken, _user.apiKey!);
           sp.setString(DbKeys.userId, _user.id!.toString());
           sp.setString(DbKeys.userEmail, _user.email!);
           sp.setString(DbKeys.userPhone, _user.phone!);

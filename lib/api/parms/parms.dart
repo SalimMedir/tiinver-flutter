@@ -1,7 +1,7 @@
 class Params{
   static const phoneOrEmail = "phoneOrEmail";
   static const newPassword = "newPassword";
-  static const authByEmail = "auth_by_email";
+  static const authByEmail = "provider";
   static const username = "username";
   static const email = "email";
   static const password = "password";

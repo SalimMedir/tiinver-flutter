@@ -51,7 +51,7 @@ class SignUpProvider extends ChangeNotifier{
         'phoneNumber': "",
         'username': "",
         'fullname': nameC.text,
-        'auth_by_email': 'email',
+        'provider': 'email',
       };
 
       final res = await ApiService.post(
@@ -108,6 +108,7 @@ class SignUpProvider extends ChangeNotifier{
 
           var sp = await SharedPreferences.getInstance();
           sp.setString(DbKeys.userApiKey, _userSignUPModel.apiKey.toString());
+          sp.setString(DbKeys.tiinverToken, _userSignUPModel.apiKey.toString());
           sp.setString(DbKeys.userId, _userSignUPModel.id.toString());
           sp.setString(DbKeys.userEmail, _userSignUPModel.email.toString());
           sp.setString(DbKeys.userPhone, _userSignUPModel.phone.toString());

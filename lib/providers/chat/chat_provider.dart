@@ -351,6 +351,7 @@
 //     notifyListeners();
 //   }
 // }
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
@@ -442,15 +443,19 @@ class ChatProvider extends ChangeNotifier {
   }
 
   void _initializeSocket() {
-    _socket = IO.io('https://api.tiinver.com:2020', IO.OptionBuilder()
+    final userId = user?.userId?.toString() ?? '';
+    final username = GlobalProviderAccess.profileProvider?.userModel.username?.toString() ?? '';
+
+    _socket = IO.io('https://tiinver.com', IO.OptionBuilder()
         .setTransports(['websocket']) // for Flutter or Dart VM
+        .setQuery({'userId': userId, 'username': username})
         .build());
 
     _socket.onConnect((_) {
       print('Connected to socket server');
     });
 
-    _socket.on('message', (data) {
+    _socket.on('new message', (data) {
       _dbHelper.insertMessage(data);
       notifyListeners();
     });
@@ -465,7 +470,7 @@ class ChatProvider extends ChangeNotifier {
       String chatRoomId, String senderId, String voiceMessagePath,
       String message, receiverId,receiverName
       ) async {
-    _socket.emit('message', message);
+    _socket.emit('new message', jsonEncode({'message': message}));
     Random random = Random();
     try {
       await _dbHelper.saveMessage(

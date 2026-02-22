@@ -38,7 +38,7 @@ class OtpProvider extends ChangeNotifier{
       final res = await ApiService.post(
           requestBody: postEncode(body),
           headers: header1,
-          endPoint: Endpoint.mail
+          endPoint: Endpoint.sendOtp
       );
 
       debugPrint(res.body);
