@@ -4,13 +4,14 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_navigation/get_navigation.dart';
 import 'package:http/http.dart' as http;
+import 'package:tiinver_project/api/base/base_urls.dart';
 
 
 class ForgotPasswordApiServices {
 
   var data;
 
-  final String baseUrl = 'https://tiinver.com/api/v1';
+  final String baseUrl = BaseUrls.proxyBaseUrl;
 
   Future forgotPassword(String email, String newPassword) async {
     var headers = {

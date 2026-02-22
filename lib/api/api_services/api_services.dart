@@ -2,7 +2,39 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
+
+class ApiError implements Exception {
+  final String message;
+  final int? statusCode;
+
+  ApiError(this.message, {this.statusCode});
+
+  @override
+  String toString() => 'ApiError(statusCode: $statusCode, message: $message)';
+}
+
+void _toastError(String message) {
+  Fluttertoast.showToast(msg: message);
+}
+
+void _handleResponseErrors(http.Response response) {
+  final parsed = response.body.isNotEmpty ? jsonDecode(response.body) : null;
+  final message = parsed is Map<String, dynamic>
+      ? (parsed['message']?.toString() ?? 'Erreur API')
+      : 'Erreur API';
+
+  if (response.statusCode < 200 || response.statusCode >= 300) {
+    _toastError(message);
+    throw ApiError(message, statusCode: response.statusCode);
+  }
+
+  if (parsed is Map<String, dynamic> && parsed['error'] == true) {
+    _toastError(message);
+    throw ApiError(message, statusCode: response.statusCode);
+  }
+}
 
 class ApiService {
   static Future<http.Response> delete(
@@ -18,16 +50,16 @@ class ApiService {
       log('url:: $url');
       log('headers:: $headers');
       log('status code:: ${response.statusCode}');
-      if (response.statusCode == 200 || response.statusCode == 204) {
-        log('___success___');
-        return response;
-      } else {
-        return response;
-      }
+      _handleResponseErrors(response);
+      return response;
     } on SocketException {
-      throw Exception('SocketException');
+      const message = 'Vérifiez votre connexion';
+      _toastError(message);
+      throw ApiError(message);
     } on TimeoutException {
-      throw Exception('TimeoutException');
+      const message = 'Délai d\'attente dépassé';
+      _toastError(message);
+      throw ApiError(message);
     }
   }
 
@@ -45,16 +77,16 @@ class ApiService {
       log('headers:: $headers');
       log('status code:: ${response.statusCode}');
       log('response:: ${response.body}');
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        log('___success___');
-        return response;
-      } else {
-        return response;
-      }
+      _handleResponseErrors(response);
+      return response;
     } on SocketException {
-      throw Exception('SocketException');
+      const message = 'Vérifiez votre connexion';
+      _toastError(message);
+      throw ApiError(message);
     } on TimeoutException {
-      throw Exception('TimeoutException');
+      const message = 'Délai d\'attente dépassé';
+      _toastError(message);
+      throw ApiError(message);
     }
     // throw Exception('error');
   }
@@ -75,20 +107,20 @@ class ApiService {
       log('url:: $url');
       log('status code:: ${response.statusCode}');
       log('body:: $requestBody');
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        log('___success___');
-        return response;
-      } else {
-        return response;
-      }
+      _handleResponseErrors(response);
+      return response;
     } on SocketException {
-      throw Exception('SocketException');
+      const message = 'Vérifiez votre connexion';
+      _toastError(message);
+      throw ApiError(message);
     } on TimeoutException {
-      throw Exception('TimeoutException');
+      const message = 'Délai d\'attente dépassé';
+      _toastError(message);
+      throw ApiError(message);
     } on Exception catch (e) {
       log(e.runtimeType.toString());
       log(e.toString());
-      throw Exception('error');
+      rethrow;
     }
   }
   static Future<http.Response> put({
@@ -107,20 +139,20 @@ class ApiService {
       log('url:: $url');
       log('status code:: ${response.statusCode}');
       log('body:: $requestBody');
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        log('___success___');
-        return response;
-      } else {
-        return response;
-      }
+      _handleResponseErrors(response);
+      return response;
     } on SocketException {
-      throw Exception('SocketException');
+      const message = 'Vérifiez votre connexion';
+      _toastError(message);
+      throw ApiError(message);
     } on TimeoutException {
-      throw Exception('TimeoutException');
+      const message = 'Délai d\'attente dépassé';
+      _toastError(message);
+      throw ApiError(message);
     } on Exception catch (e) {
       log(e.runtimeType.toString());
       log(e.toString());
-      throw Exception('error');
+      rethrow;
     }
   }
 }

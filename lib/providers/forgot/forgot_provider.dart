@@ -88,7 +88,7 @@ class ForgotProvider with ChangeNotifier {
       final res = await ApiService.post(
           requestBody: postEncode(body),
           headers: header1,
-          endPoint: "https://tiinver.com/api/v1/isPhoneOrEmailExiste"
+          endPoint: Endpoint.isPhoneOrEmailExists
       );
 
       log("Status In Provider: ${res.body}");

@@ -42,15 +42,9 @@ class SearchProvider extends ChangeNotifier{
     notifyListeners();
 
     try {
-      final body = {
-        'key': searchC.text,
-        'userId': userId,
-      };
-
-      final res = await ApiService.post(
-        requestBody: postEncode(body),
-        headers: header2(userApiKey),
-        endPoint: Endpoint.search,
+      final res = await ApiService.get(
+        Endpoint.search(userId ?? '0', searchC.text.trim()),
+        header2(userApiKey),
       );
 
       log("message: ${res.body}");

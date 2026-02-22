@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,7 +13,7 @@ import '../models/msgModel/message_model.dart';
 
 class SocketProvider with ChangeNotifier {
   late IO.Socket _socket;
-  final String _serverUrl = 'https://api.tiinver.com:2020'; // Replace with your server URL
+  final String _serverUrl = 'https://tiinver.com';
   List<MessageModel> _messages = [];
   final DatabaseHelper2 _dbHelper = DatabaseHelper2();
   List<Map<String, dynamic>> _chatRooms = [];
@@ -27,13 +28,14 @@ class SocketProvider with ChangeNotifier {
   void _initializeSocket() {
     _socket = IO.io(_serverUrl, IO.OptionBuilder()
         .setTransports(['websocket'])
+        .setQuery({'userId': '', 'username': ''})
         .build());
 
     _socket.onConnect((_) {
       print('Connected to Socket.IO server');
     });
 
-    _socket.on('message', (data) async {
+    _socket.on('new message', (data) async {
       try {
         await handleMessage(data);
         log(data.toString());
@@ -82,7 +84,7 @@ class SocketProvider with ChangeNotifier {
       String message,
       String conversationId,
       String to,
-      String from,
+      String from
       ) {
     final chatMessage = MessageModel(
       conversationId: conversationId,
@@ -94,7 +96,8 @@ class SocketProvider with ChangeNotifier {
       message: message,
       stamp: DateTime.now(),
     );
-    _socket.emit('send_message', chatMessage.toJson());
+    final payload = jsonEncode(chatMessage.toJson());
+    _socket.emit('new message', payload);
     _dbHelper.insertMessage(chatMessage);
     _messages.add(chatMessage); // Update local list
     notifyListeners();
